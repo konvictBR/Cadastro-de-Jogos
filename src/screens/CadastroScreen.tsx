@@ -1,17 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Save, XCircle, Image as ImageIcon, CalendarDays, Tag, Gamepad, Tv } from 'lucide-react'; // Added Tv icon
+import { Save, XCircle, Image as ImageIcon, CalendarDays, Tag, Gamepad, Tv } from 'lucide-react';
 import { ThemeContext } from '../contexts/ThemeContext';
+import { Game } from '../types';
 
 interface CadastroScreenProps {
-  addGame: (game: any) => void; // Define more specific type later
+  addGame: (game: Omit<Game, 'id' | 'registrationDate'>) => void;
 }
 
 const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const [nome, setNome] = useState('');
-  const [plataforma, setPlataforma] = useState(''); // Now a text input
+  const [plataforma, setPlataforma] = useState('');
   const [qualidade, setQualidade] = useState('');
   const [encarte, setEncarte] = useState(false);
   const [box, setBox] = useState(false);
@@ -23,19 +24,19 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nome || !plataforma || !qualidade || !data || !preco) {
-        alert('Por favor, preencha todos os campos obrigatórios: Nome, Plataforma, Qualidade, Data e Preço.');
+    // Validation: Only check for required fields (Nome, Plataforma, Qualidade)
+    if (!nome || !plataforma || !qualidade) {
+        alert('Por favor, preencha todos os campos obrigatórios: Nome, Plataforma e Qualidade.');
         return;
     }
     const newGame = {
-      // ID será gerado na função addGame
       nome,
       plataforma,
       qualidade,
       encarte,
       box,
-      data,
-      preco: parseFloat(preco) || 0, // Ensure price is a number
+      data: data || null, // Store as null if empty
+      preco: preco ? parseFloat(preco) : null, // Store as null if empty, otherwise parse
       foto1,
       foto2,
       foto3,
@@ -60,7 +61,7 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
           <input type="text" id="nome" value={nome} onChange={(e) => setNome(e.target.value)} className={inputStyle} required />
         </div>
 
-        {/* Plataforma (Changed to text input) */}
+        {/* Plataforma */}
         <div className="mb-4">
           <label htmlFor="plataforma" className={labelStyle}><Tv className="inline mr-1 h-4 w-4" /> Plataforma*</label>
           <input type="text" id="plataforma" value={plataforma} onChange={(e) => setPlataforma(e.target.value)} className={inputStyle} placeholder="Ex: PlayStation 5, PC, Nintendo Switch" required />
@@ -101,16 +102,16 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
         </div>
 
 
-        {/* Data */}
+        {/* Data (Optional) */}
         <div className="mb-4">
-          <label htmlFor="data" className={labelStyle}><CalendarDays className="inline mr-1 h-4 w-4" /> Data da Compra*</label>
-          <input type="date" id="data" value={data} onChange={(e) => setData(e.target.value)} className={inputStyle} required />
+          <label htmlFor="data" className={labelStyle}><CalendarDays className="inline mr-1 h-4 w-4" /> Data da Compra</label>
+          <input type="date" id="data" value={data} onChange={(e) => setData(e.target.value)} className={inputStyle} />
         </div>
 
-        {/* Preço */}
+        {/* Preço (Optional) */}
         <div className="mb-4">
-          <label htmlFor="preco" className={labelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço (R$)*</label>
-          <input type="number" id="preco" value={preco} onChange={(e) => setPreco(e.target.value)} className={inputStyle} step="0.01" min="0" required />
+          <label htmlFor="preco" className={labelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço (R$)</label>
+          <input type="number" id="preco" value={preco} onChange={(e) => setPreco(e.target.value)} className={inputStyle} step="0.01" min="0" />
         </div>
 
         {/* Links das Fotos */}

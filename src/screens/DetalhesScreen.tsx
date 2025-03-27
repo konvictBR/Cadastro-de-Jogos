@@ -223,7 +223,7 @@ const DetalhesScreen: React.FC<DetalhesScreenProps> = ({ games, updateGame, dele
               <span className={detailLabelStyle}><CalendarDays className="inline mr-1 h-4 w-4" /> Data da Compra:</span> <span className={detailValueStyle}>{displayData?.data}</span>
             </div>
             <div className={detailItemStyle}>
-              <span className={detailLabelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço Pago:</span> <span className={detailValueStyle}>R$ {displayData?.preco.toFixed(2)}</span>
+              <span className={detailLabelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço Pago:</span> <span className={detailValueStyle}>{displayData?.preco != null ? `R$ ${displayData.preco.toFixed(2)}` : 'N/A'}</span>
             </div>
              <div className={detailItemStyle}>
               <span className={detailLabelStyle}>ID:</span> <span className={`${detailValueStyle} text-xs`}>{displayData?.id}</span>
