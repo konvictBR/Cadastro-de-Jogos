@@ -17,7 +17,7 @@ export const Navbar: React.FC = () => {
           <List className="mr-2 h-6 w-6" /> {/* Using List as a placeholder logo */}
           Game Manager
         </Link>
-        <div className="flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4">
           <Link to="/" className="hover:text-blue-500 flex items-center">
             <Home className="mr-1 h-5 w-5" /> Inicio
           </Link>

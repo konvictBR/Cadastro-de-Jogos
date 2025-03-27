@@ -140,9 +140,6 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
         </div>
       </form>
        <p className={`mt-4 text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>* Campos obrigatórios</p>
-       <p className={`mt-2 text-sm ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>
-         Nota: A integração com Google Planilhas é simulada. Os dados são salvos apenas localmente no estado do aplicativo por enquanto.
-       </p>
     </div>
   );
 };

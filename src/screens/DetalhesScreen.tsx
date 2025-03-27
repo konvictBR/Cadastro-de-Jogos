@@ -10,8 +10,8 @@ interface Game {
   qualidade: string;
   encarte: boolean;
   box: boolean;
-  data: string;
-  preco: number;
+  data: string | null;
+  preco: number | null;
   foto1?: string;
   foto2?: string;
   foto3?: string;
@@ -60,7 +60,7 @@ const DetalhesScreen: React.FC<DetalhesScreenProps> = ({ games, updateGame, dele
             setEditedGame({ ...editedGame, [name]: value });
        }
        else {
-           setEditedGame({ ...editedGame, [name]: type === 'number' ? parseFloat(value) || 0 : value });
+           setEditedGame({ ...editedGame, [name]: type === 'number' ? (value === '' ? null : parseFloat(value)) : value });
        }
     }
   };
@@ -75,8 +75,8 @@ const DetalhesScreen: React.FC<DetalhesScreenProps> = ({ games, updateGame, dele
 
   const handleSave = () => {
     if (editedGame) {
-       if (!editedGame.nome || !editedGame.plataforma || !editedGame.qualidade || !editedGame.data || editedGame.preco === undefined) {
-            alert('Por favor, preencha todos os campos obrigatórios: Nome, Plataforma, Qualidade, Data e Preço.');
+       if (!editedGame.nome || !editedGame.plataforma || !editedGame.qualidade === undefined) {
+            alert('Por favor, preencha todos os campos obrigatórios: Nome, Plataforma, Qualidade.');
             return;
         }
       updateGame(editedGame);
@@ -171,14 +171,14 @@ const DetalhesScreen: React.FC<DetalhesScreenProps> = ({ games, updateGame, dele
 
            {/* Data */}
            <div className="mb-4">
-             <label htmlFor="data" className={labelStyle}><CalendarDays className="inline mr-1 h-4 w-4" /> Data da Compra*</label>
-             <input type="date" id="data" name="data" value={displayData?.data || ''} onChange={handleInputChange} className={inputStyle} required />
+             <label htmlFor="data" className={labelStyle}><CalendarDays className="inline mr-1 h-4 w-4" /> Data da Compra</label>
+             <input type="date" id="data" name="data" value={displayData?.data || ''} onChange={handleInputChange} className={inputStyle} />
            </div>
 
            {/* Preço */}
            <div className="mb-4">
-             <label htmlFor="preco" className={labelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço (R$)*</label>
-             <input type="number" id="preco" name="preco" value={displayData?.preco || 0} onChange={handleInputChange} className={inputStyle} step="0.01" min="0" required />
+             <label htmlFor="preco" className={labelStyle}><Tag className="inline mr-1 h-4 w-4" /> Preço (R$)</label>
+             <input type="number" id="preco" name="preco" value={displayData?.preco || ''} onChange={handleInputChange} className={inputStyle} step="0.01" min="0" />
            </div>
 
            {/* Fotos */}
@@ -254,9 +254,6 @@ const DetalhesScreen: React.FC<DetalhesScreenProps> = ({ games, updateGame, dele
           </div>
         </div>
       )}
-        <p className={`mt-6 text-sm text-center ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>
-         Nota: A integração com Google Planilhas (salvar/excluir) é simulada.
-       </p>
     </div>
   );
 };
