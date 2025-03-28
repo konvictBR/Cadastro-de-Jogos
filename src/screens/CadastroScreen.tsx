@@ -22,6 +22,8 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
   const [foto2, setFoto2] = useState('');
   const [foto3, setFoto3] = useState('');
 
+  // RSS Feed useEffect removed from here
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Validation: Only check for required fields (Nome, Plataforma, Qualidade)
@@ -140,6 +142,8 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ addGame }) => {
         </div>
       </form>
        <p className={`mt-4 text-sm ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>* Campos obrigatórios</p>
+
+       {/* RSS Feed Widget Removed From Here */}
     </div>
   );
 };
