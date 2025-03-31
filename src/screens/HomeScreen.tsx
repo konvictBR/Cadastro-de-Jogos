@@ -1,42 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react'; // Removed useEffect
 import { Link } from 'react-router-dom';
 import { PlusSquare, List, Settings, Gamepad2 } from 'lucide-react';
 import { ThemeContext } from '../contexts/ThemeContext';
+import RssFeedDisplay from '../components/RssFeedDisplay'; // Import the new component
 
 const HomeScreen: React.FC = () => {
   const { theme } = useContext(ThemeContext);
 
-  // Load the RSS widget script when the component mounts
-  useEffect(() => {
-    const scriptId = 'rss-app-widget-script';
-    // Check if the script already exists
-    if (document.getElementById(scriptId)) {
-      return; // Script already loaded
-    }
-
-    const script = document.createElement('script');
-    script.id = scriptId; // Add an ID to prevent duplicates
-    script.src = "https://widget.rss.app/v1/wall.js";
-    script.type = "text/javascript";
-    script.async = true;
-    document.body.appendChild(script);
-
-    // Cleanup script when component unmounts
-    return () => {
-      const existingScript = document.getElementById(scriptId);
-      // Check if the script exists and has a parent node
-      if (existingScript && existingScript.parentNode) {
-        // Only remove if this component instance added it,
-        // though in a typical SPA this might run only once.
-        // Be cautious if HomeScreen can remount frequently.
-        // We'll keep the removal commented out for now as it might cause issues
-        // if the widget script manages its own lifecycle or if other components need it.
-        // document.body.removeChild(existingScript);
-      }
-      // It's generally safer NOT to remove the widget's own elements manually,
-      // as the script itself might manage them or expect them to persist.
-    };
-  }, []); // Empty dependency array ensures this runs only once on mount
+  // Removed the useEffect hook that loaded the external rss.app script
 
   const buttonStyle = `
     flex flex-col items-center justify-center
@@ -66,15 +37,8 @@ const HomeScreen: React.FC = () => {
         </Link>
       </div>
 
-      {/* RSS Feed Widget */}
-      <div id="rss-widget-container" className="w-full max-w-4xl mt-8"> {/* Added container with width */}
-         <h3 className={`text-2xl font-semibold mb-4 text-center ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}> {/* Centered title */}
-           Últimas Notícias de Jogos
-         </h3>
-         {/* The script added via useEffect will target this element */}
-         {/* Use the custom element declared in vite-env.d.ts */}
-         <rssapp-wall id="twB8HixSbrNszTWK"></rssapp-wall>
-       </div>
+      {/* Replace the old RSS widget container with the new component */}
+      <RssFeedDisplay />
 
     </div>
   );
